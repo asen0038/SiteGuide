@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicles</title>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          padding-left: 15px;
+          padding-right: 15px;
+        }
+        button {
+          background-color: #555555;
+          color: white;
+          padding: 5px 5px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <table>
+      <tr>
+        <th>id</th>
+        <th>Vehicle type</th>
+        <th>Company</th>
+        <th>Model name</th>
+        <th>Colour</th>
+        <th>Passenger capacity</th>
+        <th>Weight (kg)</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+        {% for data in dataset %}
+            <tr>
+                <td>{{ data.id }}</td>
+                <td>{{ data.vehicle_type }}</td>
+                <td>{{ data.company }}</td>
+                <td>{{ data.model }}</td>
+                <td>{{ data.color }}</td>
+                <td>{{ data.passenger_capacity }}</td>
+                <td>{{ data.mass_kg }}</td>
+                <td><a href="update/{{ data.id }}"> <button type="button">Update vehicle</button> </a></td>
+                <td><a href="delete/{{ data.id }}"> <button type="button">Delete vehicle</button> </a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br/>
+    <a href="create"> <button type="button">Add new vehicle</button> </a>
+</body>
+</html>

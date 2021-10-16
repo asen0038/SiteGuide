@@ -50,7 +50,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'suiteguide.urls'
+# ROOT_URLCONF = 'suiteguide.urls'
+ROOT_URLCONF = 'vehicles.urls'
 
 TEMPLATES = [
     {

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicles</title>
+    <style>
+        button {
+          background-color: #555555;
+          color: white;
+          padding: 5px 5px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+        }
+        input {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <a href="/"> <button type="button">Back</button> </a>
+    <form id="add" method="POST" enctype="multipart/form-data" autocomplete="off" onsubmit="display();">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add </button>
+    </form>
+    <script>
+        function display() {
+            alert("Vehicle Added!");
+        }
+    </script>
+</body>
+</html>
