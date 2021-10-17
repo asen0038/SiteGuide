@@ -2,52 +2,59 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from .models import Vehicle
 from .forms import VehicleForm
+from django.views import View
 
 
-def create(request):
+class Create(View):
+    form_class = VehicleForm
+    context = {'key': 'value'}
+    template = 'create.html'
 
-    context = {}
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.context)
+        return render(request, self.template, {'form': form})
 
-    form = VehicleForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-
-    context['form'] = form
-    return render(request, "create.html", context)
-
-
-def listAll(request):
-
-    context = {"dataset": Vehicle.objects.all()}
-
-    return render(request, "list.html", context)
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+        return render(request, self.template, {'form': form})
 
 
-def update(request, id):
+class ListAll(View):
 
-    context = {}
+    def get(self, request):
+        context = {"dataset": Vehicle.objects.all()}
+        return render(request, "list.html", context)
 
-    vehicle = get_object_or_404(Vehicle, id=id)
 
-    form = VehicleForm(request.POST or None, instance=vehicle)
+class Update(View):
+    form_class = VehicleForm
+    context = {'key': 'value'}
+    template = 'update.html'
 
-    if form.is_valid():
-        form.save()
+    def get(self, request, *args, **kwargs):
+        vehicle = get_object_or_404(Vehicle, id=kwargs.get('id'))
+        form = self.form_class(instance=vehicle)
+        return render(request, self.template, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        vehicle = get_object_or_404(Vehicle, id=kwargs.get('id'))
+        form = self.form_class(request.POST, instance=vehicle)
+        if form.is_valid():
+            form.save()
         return HttpResponseRedirect("/")
 
-    context["form"] = form
 
-    return render(request, "update.html", context)
+class Delete(View):
+    context = {'key': 'value'}
+    template = 'delete.html'
 
+    def get(self, request, *args, **kwargs):
+        vehicle = get_object_or_404(Vehicle, id=kwargs.get('id'))
+        return render(request, self.template, self.context)
 
-def delete(request, id):
-
-    context = {}
-
-    obj = get_object_or_404(Vehicle, id=id)
-
-    if request.method == "POST":
-        obj.delete()
+    def post(self, request, *args, **kwargs):
+        vehicle = get_object_or_404(Vehicle, id=kwargs.get('id'))
+        vehicle.delete()
         return HttpResponseRedirect("/")
-
-    return render(request, "delete.html", context)

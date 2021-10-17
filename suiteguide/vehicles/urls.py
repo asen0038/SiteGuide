@@ -1,10 +1,10 @@
 from django.urls import path
 
-from . import views
+from vehicles.views import ListAll, Create, Update, Delete
 
 urlpatterns = [
-    path('', views.listAll, name='list'),
-    path('create', views.create, name='create'),
-    path('update/<id>', views.update, name='update'),
-    path('delete/<id>', views.delete, name='delete'),
+    path('', ListAll.as_view()),
+    path('create', Create.as_view()),
+    path('update/<id>', Update.as_view()),
+    path('delete/<id>', Delete.as_view()),
 ]
